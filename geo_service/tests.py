@@ -21,10 +21,15 @@ class QueryViewSetTests(APITestCase):
 
     def test_get_result(self):
         """Проверка получения результата"""
+        test_data = {'cadastral_number': '12345678', 
+                     'latitude': '50.0000', 
+                     'longitude': '30.0000', 
+                     'response': True}
+        QueryLog.objects.create(**test_data)
         url = reverse('query-result')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {'message': 'Result received'})
+        self.assertEqual(response.data, {'message': test_data})
 
     def test_ping(self):
         """Проверка ответа на пинг"""

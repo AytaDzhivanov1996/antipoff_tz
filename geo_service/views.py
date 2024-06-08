@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from geo_service.models import QueryLog
-from geo_service.serializers import QueryLogSerializer
+from geo_service.serializers import QueryLogSerializer, QueryLogCreateSerializer
 
 
 class QueryLogViewset(viewsets.ModelViewSet):
@@ -15,7 +15,7 @@ class QueryLogViewset(viewsets.ModelViewSet):
     serializer_class = QueryLogSerializer
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
+        serializer = QueryLogCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             # Эмуляция отправки запроса на внешний сервер
             time.sleep(random.randint(1, 5))  # Ожидание от 10 до 60 секунд
@@ -31,7 +31,9 @@ class QueryLogViewset(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'])
     def result(self, request):
-        return Response({'message': 'Result received'})
+        queryset = QueryLog.objects.all().last()
+        serializer = self.get_serializer(queryset)
+        return Response({'message': serializer.data})
     
     @action(detail=False, methods=['get'])
     def ping(self, request):
