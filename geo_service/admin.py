@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from geo_service.models import QueryLog
+
+admin.site.register(QueryLog)
