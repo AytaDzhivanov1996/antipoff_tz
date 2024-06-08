@@ -24,7 +24,7 @@ class QueryLogViewset(viewsets.ModelViewSet):
         serializer = QueryLogCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             # Эмуляция отправки запроса на внешний сервер
-            time.sleep(random.randint(2, 60))  # Ожидание от 10 до 60 секунд
+            time.sleep(random.randint(2, 60))  # Ожидание от 2 до 60 секунд
             response = random.choice([True, False])  # Случайный ответ (true или false)
 
             serializer.validated_data['response'] = response
