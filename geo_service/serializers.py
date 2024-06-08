@@ -4,6 +4,7 @@ from geo_service.models import QueryLog
 
 
 class QueryLogSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = QueryLog
-        fields = '__all__'
+        exclude = ['id', 'response', 'created_at']
